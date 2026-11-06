@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Danh sách đăng ký – BLL New City</title>
+<style>
+:root{--bg:#F5F9FE;--surface:#fff;--ink:#13233F;--muted:#4A5B78;--primary:#1B4F9C;--accent:#F2B531;--line:#D5E2F3;--ok:#1E7B4B;color-scheme:light;
+--sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#0A1730;--surface:#11264D;--ink:#E8EFFB;--muted:#A9B9D4;--primary:#7DB0F5;--line:#25416F;--ok:#5FD39A;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);padding:max(1rem,env(safe-area-inset-top)) 1rem max(1rem,env(safe-area-inset-bottom))}
+.wrap{max-width:1100px;margin:0 auto}
+h1{font-size:1.5rem;margin:.5rem 0 1rem}
+.stats{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.6rem 1rem;min-width:7.5rem}
+.stat b{display:block;font-size:1.5rem;line-height:1.2}
+.stat span{color:var(--muted);font-size:.875rem}
+.bar{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+input,select,button,a.btn{font:inherit;min-height:2.5rem;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:.4rem .75rem}
+input{flex:1 1 14rem}
+button,a.btn{cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;font-weight:600}
+a.btn,button.btn{background:var(--accent);color:#13233F;border-color:transparent}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th,td{padding:.6rem .75rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.8125rem;color:var(--muted);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.tag{display:inline-block;border-radius:999px;padding:.1rem .6rem;font-size:.8125rem;border:1px solid var(--line)}
+.tag.ung_ho{border-color:var(--ok);color:var(--ok)}
+.st{min-height:2rem;padding:.15rem .6rem;font-size:.875rem}
+.st.da_ky_giay{border-color:var(--ok);color:var(--ok)}
+.empty{padding:2rem;text-align:center;color:var(--muted)}
+a{color:var(--primary)}
+.hint{color:var(--muted);font-size:.875rem;margin-top:.75rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Danh sách đăng ký ủng hộ</h1>
+  <div class="stats" id="stats"></div>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Tìm theo tên, SĐT, căn hộ…" aria-label="Tìm kiếm">
+    <select id="tower" aria-label="Lọc theo tháp"><option value="">Tất cả tháp</option></select>
+    <select id="status" aria-label="Lọc theo trạng thái"><option value="">Mọi trạng thái</option></select>
+    <select id="choice" aria-label="Lọc theo lựa chọn"><option value="">Mọi lựa chọn</option></select>
+    <button class="btn" id="csv" type="button">Tải CSV</button>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Thời gian</th><th>Họ tên</th><th>SĐT</th><th>Tháp</th><th>Căn hộ</th><th>Vai trò</th><th>Lựa chọn</th><th>Ghi chú</th><th>Trạng thái</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table><div class="empty" id="empty" hidden>Chưa có đăng ký nào khớp bộ lọc.</div></div>
+  <p class="hint">Bấm vào nút trạng thái để chuyển: Mới, Đã liên hệ, Đã ký phiếu giấy. Ai có đường link này đều xem được danh sách, nên không chia sẻ rộng. Nút Tải CSV xuất theo bộ lọc đang chọn.</p>
+</div>
+<script>
+(function(){
+  var KEY = decodeURIComponent((location.pathname.split("/").filter(Boolean)[1] || ""));
+  var H = {"x-admin-key": KEY};
+  var META = null, ALL = [];
+  var $ = function(id){return document.getElementById(id)};
+  function el(tag, cls, text){var e=document.createElement(tag); if(cls)e.className=cls; if(text!=null)e.textContent=text; return e}
+  function fmt(iso){var d=new Date(iso); return d.toLocaleString("vi-VN",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}
+  function fill(sel, obj){Object.keys(obj).forEach(function(k){var o=el("option",null,obj[k]); o.value=k; sel.appendChild(o)})}
+  function fillArr(sel, arr){arr.forEach(function(v){var o=el("option",null,v); o.value=v; sel.appendChild(o)})}
+  function filtered(){
+    var q=$("q").value.trim().toLowerCase(), t=$("tower").value, s=$("status").value, c=$("choice").value;
+    return ALL.filter(function(r){
+      if(t&&r.tower!==t)return false; if(s&&r.status!==s)return false; if(c&&r.choice!==c)return false;
+      if(q&&(r.full_name+" "+r.phone+" "+r.unit).toLowerCase().indexOf(q)<0)return false; return true});
+  }
+  function render(){
+    var rows=filtered(), body=$("rows"); body.textContent="";
+    rows.forEach(function(r){
+      var tr=document.createElement("tr");
+      tr.appendChild(el("td",null,fmt(r.created_at)));
+      tr.appendChild(el("td",null,r.full_name));
+      var tdp=el("td"); var a=el("a",null,r.phone); a.href="tel:"+r.phone; tdp.appendChild(a); tr.appendChild(tdp);
+      tr.appendChild(el("td",null,r.tower));
+      tr.appendChild(el("td",null,r.unit));
+      tr.appendChild(el("td",null,META.roles[r.role]||r.role));
+      var tdc=el("td"); tdc.appendChild(el("span","tag "+r.choice,META.choices[r.choice]||r.choice)); tr.appendChild(tdc);
+      tr.appendChild(el("td",null,r.note));
+      var tds=el("td"); var b=el("button","st "+r.status,META.statuses[r.status]||r.status); b.type="button";
+      b.addEventListener("click",function(){next(r)}); tds.appendChild(b); tr.appendChild(tds);
+      body.appendChild(tr);
+    });
+    $("empty").hidden = rows.length>0;
+    stats();
+  }
+  function stats(){
+    var box=$("stats"); box.textContent="";
+    function add(n,l){var s=el("div","stat"); s.appendChild(el("b",null,String(n))); s.appendChild(el("span",null,l)); box.appendChild(s)}
+    add(ALL.length,"Tổng đăng ký");
+    META.towers.forEach(function(t){add(ALL.filter(function(r){return r.tower===t}).length,t)});
+    add(ALL.filter(function(r){return r.status==="da_ky_giay"}).length,"Đã ký phiếu giấy");
+  }
+  function next(r){
+    var keys=Object.keys(META.statuses), n=keys[(keys.indexOf(r.status)+1)%keys.length], old=r.status;
+    r.status=n; render();
+    fetch("/api/admin",{method:"POST",headers:{"Content-Type":"application/json","x-admin-key":KEY},body:JSON.stringify({id:r.id,status:n})})
+      .then(function(x){if(!x.ok)throw 0}).catch(function(){r.status=old; render(); alert("Không lưu được trạng thái, vui lòng thử lại.")});
+  }
+  function load(){
+    fetch("/api/admin",{cache:"no-store",headers:H}).then(function(x){if(!x.ok)throw 0;return x.json()}).then(function(d){
+      META=d; ALL=d.rows;
+      if(!$("tower").dataset.ready){fillArr($("tower"),d.towers); fill($("status"),d.statuses); fill($("choice"),d.choices); $("tower").dataset.ready=1}
+      render();
+    }).catch(function(){$("empty").hidden=false; $("empty").textContent="Không tải được danh sách."});
+  }
+  ["q","tower","status","choice"].forEach(function(id){$(id).addEventListener("input",function(){if(META)render()})});
+  function csvCell(v){var s=String(v==null?"":v); if(/^[=+\-@]/.test(s)) s="'"+s; return /[",\n\r]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}
+  $("csv").addEventListener("click", function(){
+    if(!META) return;
+    var head=["Thời gian","Họ tên","SĐT","Tháp","Căn hộ","Vai trò","Lựa chọn","Ghi chú","Trạng thái"];
+    var lines=[head.map(csvCell).join(",")];
+    filtered().forEach(function(r){lines.push([r.created_at,r.full_name,r.phone,r.tower,r.unit,META.roles[r.role]||r.role,META.choices[r.choice]||r.choice,r.note,META.statuses[r.status]||r.status].map(csvCell).join(","))});
+    var blob=new Blob(["\uFEFF"+lines.join("\r\n")+"\r\n"],{type:"text/csv;charset=utf-8"});
+    var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+    a.download="bll-dang-ky-"+new Date().toISOString().slice(0,10)+".csv"; document.body.appendChild(a); a.click(); a.remove();
+  });
+  load(); setInterval(function(){if(!document.hidden)load()},60000);
+})();
+</script>
+</body>
+</html>

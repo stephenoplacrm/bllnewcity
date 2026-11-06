@@ -1,0 +1,5 @@
+{
+  "name": "bll-newcity",
+  "private": true,
+  "engines": { "node": "22.x" }
+}
