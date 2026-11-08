@@ -327,7 +327,7 @@ footer .wrap { display: grid; gap: .25rem; }
           <div class="row2">
             <div class="field">
               <label for="floor">Tầng</label>
-              <input type="text" id="floor" name="floor" inputmode="numeric" autocomplete="off" maxlength="2" placeholder="Ví dụ: 12" required>
+              <input type="text" id="floor" name="floor" autocomplete="off" autocapitalize="characters" maxlength="4" placeholder="Ví dụ: 12 hoặc 3A" required>
             </div>
             <div class="field">
               <label for="unit">Căn hộ</label>
@@ -470,7 +470,7 @@ footer .wrap { display: grid; gap: .25rem; }
       if (val("full_name").length < 2) return fail("Vui lòng nhập họ và tên.", "full_name");
       if (!/^(0|\+84|84)\d{9,10}$/.test(phone)) return fail("Số điện thoại chưa đúng, vui lòng kiểm tra lại.", "phone");
       if (!val("tower")) return fail("Vui lòng chọn tháp.", "tower");
-      if (!/^\d{1,2}$/.test(val("floor")) || +val("floor") < 1) return fail("Vui lòng nhập tầng bằng số (ví dụ: 12).", "floor");
+      if (!/^[0-9A-Za-z]{1,4}$/.test(val("floor"))) return fail("Vui lòng nhập tầng, gồm số hoặc chữ (ví dụ: 12 hoặc 3A).", "floor");
       if (!val("unit")) return fail("Vui lòng nhập số căn hộ (ví dụ: 05).", "unit");
       if (!radio("role")) return fail("Vui lòng chọn chủ sở hữu hoặc người thuê.");
       if (!radio("choice")) return fail("Vui lòng chọn một lựa chọn.");

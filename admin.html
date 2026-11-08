@@ -72,7 +72,7 @@ a{color:var(--primary)}
     if($("sort").value==="loc"){
       var order=META.towers;
       list=list.slice().sort(function(a,b){
-        return (order.indexOf(a.tower)-order.indexOf(b.tower)) || ((+a.floor||0)-(+b.floor||0)) || String(a.unit).localeCompare(String(b.unit),"vi",{numeric:true});
+        return (order.indexOf(a.tower)-order.indexOf(b.tower)) || ((parseInt(a.floor,10)||0)-(parseInt(b.floor,10)||0)) || String(a.floor||"").localeCompare(String(b.floor||""),"vi",{numeric:true}) || String(a.unit).localeCompare(String(b.unit),"vi",{numeric:true});
       });
     }
     return list;
