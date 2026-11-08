@@ -183,8 +183,7 @@ input[type="text"], input[type="tel"], select, textarea {
 textarea { min-height: 5.5rem; resize: vertical; }
 input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
 .form-grid { display: grid; gap: 1.25rem; }
-.row2 { display: grid; gap: 1.25rem; }
-@media (min-width: 640px) { .row2 { grid-template-columns: 1fr 1fr; gap: 1rem; } }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .choices { display: grid; gap: .6rem; }
 @media (min-width: 640px) { .choices.two { grid-template-columns: 1fr 1fr; } }
 .opt { position: relative; }
@@ -315,20 +314,24 @@ footer .wrap { display: grid; gap: .25rem; }
             <label for="phone">Số điện thoại</label>
             <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" maxlength="16" required>
           </div>
+          <div class="field">
+            <label for="tower">Tháp</label>
+            <select id="tower" name="tower" required>
+              <option value="">Chọn tháp</option>
+              <option>Babylon</option>
+              <option>Venice</option>
+              <option>Hawaii</option>
+              <option>Bali</option>
+            </select>
+          </div>
           <div class="row2">
             <div class="field">
-              <label for="tower">Tháp</label>
-              <select id="tower" name="tower" required>
-                <option value="">Chọn tháp</option>
-                <option>Babylon</option>
-                <option>Venice</option>
-                <option>Hawaii</option>
-                <option>Bali</option>
-              </select>
+              <label for="floor">Tầng</label>
+              <input type="text" id="floor" name="floor" inputmode="numeric" autocomplete="off" maxlength="2" placeholder="Ví dụ: 12" required>
             </div>
             <div class="field">
-              <label for="unit">Mã căn hộ</label>
-              <input type="text" id="unit" name="unit" autocomplete="off" maxlength="20" required>
+              <label for="unit">Căn hộ</label>
+              <input type="text" id="unit" name="unit" autocomplete="off" maxlength="10" placeholder="Ví dụ: 05" required>
             </div>
           </div>
 
@@ -467,7 +470,8 @@ footer .wrap { display: grid; gap: .25rem; }
       if (val("full_name").length < 2) return fail("Vui lòng nhập họ và tên.", "full_name");
       if (!/^(0|\+84|84)\d{9,10}$/.test(phone)) return fail("Số điện thoại chưa đúng, vui lòng kiểm tra lại.", "phone");
       if (!val("tower")) return fail("Vui lòng chọn tháp.", "tower");
-      if (!val("unit")) return fail("Vui lòng nhập mã căn hộ.", "unit");
+      if (!/^\d{1,2}$/.test(val("floor")) || +val("floor") < 1) return fail("Vui lòng nhập tầng bằng số (ví dụ: 12).", "floor");
+      if (!val("unit")) return fail("Vui lòng nhập số căn hộ (ví dụ: 05).", "unit");
       if (!radio("role")) return fail("Vui lòng chọn chủ sở hữu hoặc người thuê.");
       if (!radio("choice")) return fail("Vui lòng chọn một lựa chọn.");
       if (!document.getElementById("consent").checked) return fail("Vui lòng đồng ý cho Ban Liên Lạc dùng thông tin để liên hệ.", "consent");
@@ -477,7 +481,7 @@ footer .wrap { display: grid; gap: .25rem; }
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          full_name: val("full_name"), phone: val("phone"), tower: val("tower"), unit: val("unit"),
+          full_name: val("full_name"), phone: val("phone"), tower: val("tower"), floor: val("floor"), unit: val("unit"),
           role: radio("role"), choice: radio("choice"), note: val("note"), website: val("website"), consent: true
         })
       }).then(function (r) { return r.json().catch(function () { return { ok: false }; }); })

@@ -45,10 +45,11 @@ a{color:var(--primary)}
     <select id="tower" aria-label="Lọc theo tháp"><option value="">Tất cả tháp</option></select>
     <select id="status" aria-label="Lọc theo trạng thái"><option value="">Mọi trạng thái</option></select>
     <select id="choice" aria-label="Lọc theo lựa chọn"><option value="">Mọi lựa chọn</option></select>
+    <select id="sort" aria-label="Sắp xếp"><option value="new">Mới nhất trước</option><option value="loc">Theo tháp, tầng, căn hộ</option></select>
     <button class="btn" id="csv" type="button">Tải CSV</button>
   </div>
   <div class="tablewrap"><table>
-    <thead><tr><th>Thời gian</th><th>Họ tên</th><th>SĐT</th><th>Tháp</th><th>Căn hộ</th><th>Vai trò</th><th>Lựa chọn</th><th>Ghi chú</th><th>Trạng thái</th></tr></thead>
+    <thead><tr><th>Thời gian</th><th>Họ tên</th><th>SĐT</th><th>Tháp</th><th>Tầng</th><th>Căn hộ</th><th>Vai trò</th><th>Lựa chọn</th><th>Ghi chú</th><th>Trạng thái</th></tr></thead>
     <tbody id="rows"></tbody>
   </table><div class="empty" id="empty" hidden>Chưa có đăng ký nào khớp bộ lọc.</div></div>
   <p class="hint">Bấm vào nút trạng thái để chuyển: Mới, Đã liên hệ, Đã ký phiếu giấy. Ai có đường link này đều xem được danh sách, nên không chia sẻ rộng. Nút Tải CSV xuất theo bộ lọc đang chọn.</p>
@@ -65,9 +66,16 @@ a{color:var(--primary)}
   function fillArr(sel, arr){arr.forEach(function(v){var o=el("option",null,v); o.value=v; sel.appendChild(o)})}
   function filtered(){
     var q=$("q").value.trim().toLowerCase(), t=$("tower").value, s=$("status").value, c=$("choice").value;
-    return ALL.filter(function(r){
+    var list = ALL.filter(function(r){
       if(t&&r.tower!==t)return false; if(s&&r.status!==s)return false; if(c&&r.choice!==c)return false;
-      if(q&&(r.full_name+" "+r.phone+" "+r.unit).toLowerCase().indexOf(q)<0)return false; return true});
+      if(q&&(r.full_name+" "+r.phone+" "+(r.floor||"")+" "+r.unit).toLowerCase().indexOf(q)<0)return false; return true});
+    if($("sort").value==="loc"){
+      var order=META.towers;
+      list=list.slice().sort(function(a,b){
+        return (order.indexOf(a.tower)-order.indexOf(b.tower)) || ((+a.floor||0)-(+b.floor||0)) || String(a.unit).localeCompare(String(b.unit),"vi",{numeric:true});
+      });
+    }
+    return list;
   }
   function render(){
     var rows=filtered(), body=$("rows"); body.textContent="";
@@ -77,6 +85,7 @@ a{color:var(--primary)}
       tr.appendChild(el("td",null,r.full_name));
       var tdp=el("td"); var a=el("a",null,r.phone); a.href="tel:"+r.phone; tdp.appendChild(a); tr.appendChild(tdp);
       tr.appendChild(el("td",null,r.tower));
+      tr.appendChild(el("td",null,r.floor||""));
       tr.appendChild(el("td",null,r.unit));
       tr.appendChild(el("td",null,META.roles[r.role]||r.role));
       var tdc=el("td"); tdc.appendChild(el("span","tag "+r.choice,META.choices[r.choice]||r.choice)); tr.appendChild(tdc);
@@ -108,13 +117,13 @@ a{color:var(--primary)}
       render();
     }).catch(function(){$("empty").hidden=false; $("empty").textContent="Không tải được danh sách."});
   }
-  ["q","tower","status","choice"].forEach(function(id){$(id).addEventListener("input",function(){if(META)render()})});
+  ["q","tower","status","choice","sort"].forEach(function(id){$(id).addEventListener("input",function(){if(META)render()})});
   function csvCell(v){var s=String(v==null?"":v); if(/^[=+\-@]/.test(s)) s="'"+s; return /[",\n\r]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}
   $("csv").addEventListener("click", function(){
     if(!META) return;
-    var head=["Thời gian","Họ tên","SĐT","Tháp","Căn hộ","Vai trò","Lựa chọn","Ghi chú","Trạng thái"];
+    var head=["Thời gian","Họ tên","SĐT","Tháp","Tầng","Căn hộ","Vai trò","Lựa chọn","Ghi chú","Trạng thái"];
     var lines=[head.map(csvCell).join(",")];
-    filtered().forEach(function(r){lines.push([r.created_at,r.full_name,r.phone,r.tower,r.unit,META.roles[r.role]||r.role,META.choices[r.choice]||r.choice,r.note,META.statuses[r.status]||r.status].map(csvCell).join(","))});
+    filtered().forEach(function(r){lines.push([r.created_at,r.full_name,r.phone,r.tower,r.floor||"",r.unit,META.roles[r.role]||r.role,META.choices[r.choice]||r.choice,r.note,META.statuses[r.status]||r.status].map(csvCell).join(","))});
     var blob=new Blob(["\uFEFF"+lines.join("\r\n")+"\r\n"],{type:"text/csv;charset=utf-8"});
     var a=document.createElement("a"); a.href=URL.createObjectURL(blob);
     a.download="bll-dang-ky-"+new Date().toISOString().slice(0,10)+".csv"; document.body.appendChild(a); a.click(); a.remove();
