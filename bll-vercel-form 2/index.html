@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vận động bãi nhiệm BQT – BLL Cư dân New City Thủ Thiêm</title>
+<meta name="description" content="Ban Liên Lạc cư dân New City Thủ Thiêm kêu gọi chủ sở hữu ký tên đề nghị bãi nhiệm Ban quản trị hiện tại và bầu Ban quản trị mới theo đúng quy định pháp luật.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&family=Noto+Serif:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F9FE;
+  --surface: #FFFFFF;
+  --ink: #13233F;
+  --muted: #4A5B78;
+  --primary: #1B4F9C;
+  --accent: #F2B531;
+  --accent-ink: #13233F;
+  --line: #D5E2F3;
+  --band: #0F2F66;
+  --band-ink: #FFFFFF;
+  --band-muted: #B9CBEA;
+  color-scheme: light;
+  --sans: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif: "Noto Serif", "Times New Roman", Georgia, serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A1730;
+    --surface: #11264D;
+    --ink: #E8EFFB;
+    --muted: #A9B9D4;
+    --primary: #7DB0F5;
+    --line: #25416F;
+    --band: #0E2A5A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A1730;
+  --surface: #11264D;
+  --ink: #E8EFFB;
+  --muted: #A9B9D4;
+  --primary: #7DB0F5;
+  --line: #25416F;
+  --band: #0E2A5A;
+  color-scheme: dark;
+}
+
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+*, *::before, *::after { box-sizing: inherit; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+img { max-width: 100%; height: auto; }
+a { color: var(--primary); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.wrap { width: min(1080px, 100% - 2.5rem); margin-inline: auto; }
+section { padding-block: clamp(3rem, 7vw, 5.5rem); }
+
+h1, h2, h3 { font-weight: 800; line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 4.8vw, 3.1rem); max-width: 22ch; }
+h2 { font-size: clamp(1.6rem, 3.6vw, 2.25rem); max-width: 24ch; }
+h3 { font-size: 1.125rem; font-weight: 600; }
+p { margin: 0; }
+.lead { font-size: 1.1875rem; color: var(--muted); max-width: 56ch; }
+
+/* Hero */
+.hero { padding-block: clamp(2rem, 6vw, 4.5rem) clamp(3rem, 7vw, 5rem); }
+.hero-grid { display: grid; gap: 2rem; align-items: center; }
+.hero-logo {
+  width: clamp(150px, 42vw, 380px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: block;
+  justify-self: start;
+  background: #fff;
+  box-shadow: 0 0 0 6px var(--surface), 0 0 0 7px var(--line);
+}
+.hero-copy { display: grid; gap: 1.25rem; }
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .5rem; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 3rem; padding: .7rem 1.5rem;
+  font: 600 1rem/1.2 var(--sans);
+  border-radius: 999px; text-decoration: none; cursor: pointer;
+  border: 2px solid transparent;
+}
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { filter: brightness(1.06); }
+.btn-ghost { border-color: var(--primary); color: var(--primary); background: transparent; }
+.btn-ghost:hover { background: var(--surface); }
+.note { font-size: .9375rem; color: var(--muted); max-width: 52ch; }
+@media (min-width: 860px) {
+  .hero-grid { grid-template-columns: 1.25fr 1fr; gap: 3.5rem; }
+  .hero-logo { justify-self: end; order: 2; }
+}
+
+/* Concerns */
+.split { display: grid; gap: 2rem; }
+@media (min-width: 860px) { .split { grid-template-columns: 1fr 1.4fr; gap: 4rem; } }
+.concerns { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.concerns li { padding: 1.25rem 0 1.25rem 1.25rem; border-left: 4px solid var(--primary); border-bottom: 1px solid var(--line); }
+.concerns li:last-child { border-bottom: 0; }
+.concerns strong { display: block; font-weight: 600; margin-bottom: .25rem; }
+.concerns span { color: var(--muted); }
+.after { margin-top: 1.5rem; color: var(--muted); }
+
+/* Asks */
+.asks { background: var(--surface); border-block: 1px solid var(--line); }
+.ask-grid { display: grid; gap: 2rem; margin-top: 2rem; }
+@media (min-width: 760px) { .ask-grid { grid-template-columns: 1fr 1fr; gap: 3rem; } }
+.ask h3 { margin-bottom: .5rem; }
+.ask p { color: var(--muted); }
+
+/* Steps */
+.steps { background: var(--band); color: var(--band-ink); }
+.steps h2 { color: var(--band-ink); }
+.steps .lead { color: var(--band-muted); }
+.step-list { list-style: none; counter-reset: s; margin: 2.5rem 0 0; padding: 0; display: grid; gap: 2rem; }
+@media (min-width: 860px) { .step-list { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
+.step-list li { counter-increment: s; display: grid; grid-template-columns: auto 1fr; gap: .25rem 1rem; align-items: start; }
+.step-list li::before {
+  content: counter(s);
+  grid-row: 1 / span 2;
+  width: 2.5rem; height: 2.5rem; border-radius: 50%;
+  background: var(--accent); color: var(--accent-ink);
+  display: grid; place-items: center; font-weight: 800;
+}
+.step-list h3 { color: var(--band-ink); }
+.step-list p { color: var(--band-muted); font-size: 1rem; }
+.goal { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.2); color: var(--band-muted); }
+.goal b { color: var(--accent); font-weight: 800; }
+
+/* Register */
+.register-box { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: clamp(1.5rem, 4vw, 2.75rem); display: grid; gap: 1.5rem; }
+.contacts { display: grid; gap: 1rem; }
+@media (min-width: 640px) { .contacts { grid-template-columns: 1fr 1fr; } }
+.contact { border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.25rem; display: grid; gap: .25rem; background: var(--bg); }
+.contact .who { font-weight: 600; }
+.contact .role { color: var(--muted); font-size: .9375rem; }
+.contact a { font-weight: 800; font-size: 1.25rem; text-decoration: none; }
+.contact a:hover { text-decoration: underline; }
+#register-online[hidden] { display: none; }
+
+/* Letter */
+.letter-wrap { max-width: 720px; }
+details { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+summary { cursor: pointer; padding: 1rem 1.25rem; font-weight: 600; list-style-position: inside; }
+.letter { font-family: var(--serif); line-height: 1.8; padding: .5rem clamp(1.25rem, 4vw, 2.5rem) 2rem; display: grid; gap: 1rem; }
+.letter h3 { font-family: var(--serif); text-align: center; font-size: 1.25rem; font-weight: 600; }
+.letter .re { text-align: center; }
+.letter ul { margin: 0; padding-left: 1.25rem; display: grid; gap: .5rem; }
+.letter .ask-line { font-weight: 600; }
+.letter .sign { display: grid; gap: .25rem; justify-items: end; text-align: center; margin-top: 1rem; }
+.letter .reps { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; width: 100%; margin-top: .5rem; text-align: center; }
+
+
+[hidden] { display: none !important; }
+
+/* Form */
+.field { display: grid; gap: .35rem; }
+.field > label, fieldset legend { font-weight: 600; font-size: .9375rem; }
+fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: .5rem; min-width: 0; }
+fieldset legend { padding: 0; margin-bottom: .35rem; }
+input[type="text"], input[type="tel"], select, textarea {
+  width: 100%; min-height: 3rem; padding: .65rem .9rem;
+  font: inherit; color: var(--ink); background: var(--bg);
+  border: 1.5px solid var(--line); border-radius: 12px;
+}
+textarea { min-height: 5.5rem; resize: vertical; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+.form-grid { display: grid; gap: 1.25rem; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.choices { display: grid; gap: .6rem; }
+@media (min-width: 640px) { .choices.two { grid-template-columns: 1fr 1fr; } }
+.opt { position: relative; }
+.opt input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.opt span { display: block; padding: .8rem 1rem; border: 1.5px solid var(--line); border-radius: 12px; background: var(--bg); font-weight: 500; }
+.opt input:checked + span { border-color: var(--primary); background: var(--surface); box-shadow: inset 0 0 0 1.5px var(--primary); font-weight: 600; }
+.opt input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+.consent { display: grid; grid-template-columns: auto 1fr; gap: .75rem; align-items: start; font-size: .9375rem; }
+.consent input { width: 1.25rem; height: 1.25rem; margin-top: .2rem; accent-color: var(--primary); }
+.disclaimer { background: var(--bg); border-left: 4px solid var(--accent); padding: .85rem 1rem; border-radius: 0 10px 10px 0; font-size: .9375rem; color: var(--muted); }
+.disclaimer strong { color: var(--ink); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.msg { min-height: 1.5rem; font-weight: 600; }
+.msg.err { color: #C0392B; }
+:root[data-theme="dark"] .msg.err { color: #FF8C7A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .msg.err { color: #FF8C7A; } }
+.thanks { display: grid; gap: .75rem; }
+.thanks h3 { font-size: 1.5rem; }
+.sub-contacts h3 { margin-bottom: .75rem; font-size: 1rem; color: var(--muted); font-weight: 600; }
+button.btn-primary { border: 2px solid transparent; }
+button.btn-primary[disabled] { opacity: .6; cursor: wait; }
+
+/* Lịch vận động */
+.schedule-list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 0; max-width: 720px; }
+.schedule-list li { display: grid; gap: .15rem 1.5rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+@media (min-width: 640px) { .schedule-list li { grid-template-columns: 11rem 1fr; } }
+.schedule-list .when { font-weight: 800; }
+.schedule-list .where { color: var(--muted); }
+
+.letter-logo { width: 96px; height: 96px; border-radius: 50%; justify-self: center; background: #fff; }
+
+footer { padding-block: 2.5rem 3rem; color: var(--muted); font-size: .9375rem; border-top: 1px solid var(--line); }
+footer .wrap { display: grid; gap: .25rem; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <img class="hero-logo" src="/logo.jpg" alt="Logo Ban Liên Lạc cư dân New City Thủ Thiêm: Đoàn kết – Đồng hành – Vì cộng đồng" width="480" height="480">
+    <div class="hero-copy">
+      <h1>Cùng đồng lòng chọn lại Ban quản trị cho Chung cư New City Thủ Thiêm</h1>
+      <p class="lead">Ban Liên Lạc (BLL) cư dân kêu gọi các chủ sở hữu ký tên đề nghị bãi nhiệm toàn bộ Ban quản trị (BQT) hiện tại và bầu Ban quản trị mới theo đúng quy định pháp luật.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#dang-ky">Tôi muốn ủng hộ</a>
+        <a class="btn btn-ghost" href="#thu-ngo">Đọc thư ngỏ</a>
+      </div>
+      <p class="note">Đây không phải là sự đối đầu hay chia rẽ, mà là sự đồng lòng vì quyền lợi chung và một môi trường sống an toàn, tốt đẹp hơn.</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="ly-do">
+    <div class="wrap split">
+      <div>
+        <h2>Vì sao cư dân quan ngại</h2>
+        <p class="after">Hoạt động của Ban quản trị hiện nay bộc lộ nhiều hạn chế.</p>
+      </div>
+      <div>
+        <ul class="concerns">
+          <li><strong>Đại diện</strong><span>Chưa thể hiện đúng vai trò đại diện cho ý chí và quyền lợi chung của tập thể cư dân.</span></li>
+          <li><strong>Minh bạch</strong><span>Thiếu công khai, minh bạch trong báo cáo tài chính; thiếu đối thoại và chưa giải quyết thỏa đáng các phản ánh, kiến nghị của cư dân.</span></li>
+          <li><strong>An toàn</strong><span>Chưa thực hiện tốt trách nhiệm giám sát quản lý, vận hành và bảo đảm an toàn chung cư. Có phản ánh về thang máy và thiết bị PCCC đã quá thời hạn kiểm định nhưng vẫn tiếp tục sử dụng, tiềm ẩn nguy cơ mất an toàn cho cư dân.</span></li>
+        </ul>
+        <p class="after">Những vấn đề trên cho thấy cần xem xét lại trách nhiệm và vai trò của Ban quản trị hiện tại, nhằm bảo vệ quyền lợi và sự an toàn của cộng đồng chủ sở hữu.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="asks" id="de-nghi">
+    <div class="wrap">
+      <h2>Chúng tôi đề nghị điều gì</h2>
+      <div class="ask-grid">
+        <div class="ask">
+          <h3>Chủ sở hữu ký tên</h3>
+          <p>Đồng thuận, tự nguyện ký tên đề nghị bãi nhiệm toàn bộ Ban quản trị hiện tại.</p>
+        </div>
+        <div class="ask">
+          <h3>Phường tổ chức Hội nghị nhà chung cư bất thường</h3>
+          <p>Đề nghị UBND phường An Khánh tổ chức Hội nghị để biểu quyết bãi nhiệm Ban quản trị hiện tại và bầu Ban quản trị mới theo đúng quy định pháp luật.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps" id="cach-tham-gia">
+    <div class="wrap">
+      <h2>Cách tham gia</h2>
+      <p class="lead">Dành cho chủ sở hữu căn hộ tại New City Thủ Thiêm.</p>
+      <ol class="step-list">
+        <li>
+          <h3>Đăng ký ủng hộ</h3>
+          <p>Điền phiếu đăng ký bên dưới để Ban Liên Lạc biết và sắp xếp thời gian gặp.</p>
+        </li>
+        <li>
+          <h3>Ký tên trực tiếp</h3>
+          <p>Nhóm vận động gặp chủ sở hữu để ký phiếu giấy, thường mất khoảng 5 phút cho mỗi người.</p>
+        </li>
+        <li>
+          <h3>Gửi hồ sơ đến phường</h3>
+          <p>Ban Liên Lạc đề nghị UBND phường An Khánh tổ chức Hội nghị nhà chung cư bất thường.</p>
+        </li>
+      </ol>
+      <p class="goal">Mục tiêu của Ban Liên Lạc: <b>700 chữ ký</b> của chủ sở hữu.</p>
+    </div>
+  </section>
+
+  <section id="lich" hidden>
+    <div class="wrap">
+      <h2>Lịch gặp Ban Liên Lạc</h2>
+      <ul class="schedule-list" id="schedule-list"></ul>
+    </div>
+  </section>
+
+  <section id="dang-ky">
+    <div class="wrap">
+      <div class="register-box">
+        <h2>Đăng ký ủng hộ</h2>
+        <p class="lead">Để lại thông tin để Ban Liên Lạc liên hệ, hẹn giờ ký tên và không phải đến gõ cửa nhiều lần.</p>
+
+        <form id="reg" class="form-grid" novalidate>
+          <div class="field">
+            <label for="full_name">Họ và tên</label>
+            <input type="text" id="full_name" name="full_name" autocomplete="name" maxlength="80" required>
+          </div>
+          <div class="field">
+            <label for="phone">Số điện thoại</label>
+            <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" maxlength="16" required>
+          </div>
+          <div class="field">
+            <label for="tower">Tháp</label>
+            <select id="tower" name="tower" required>
+              <option value="">Chọn tháp</option>
+              <option>Babylon</option>
+              <option>Venice</option>
+              <option>Hawaii</option>
+              <option>Bali</option>
+            </select>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="floor">Tầng</label>
+              <input type="text" id="floor" name="floor" inputmode="numeric" autocomplete="off" maxlength="2" placeholder="Ví dụ: 12" required>
+            </div>
+            <div class="field">
+              <label for="unit">Căn hộ</label>
+              <input type="text" id="unit" name="unit" autocomplete="off" maxlength="10" placeholder="Ví dụ: 05" required>
+            </div>
+          </div>
+
+          <fieldset>
+            <legend>Bạn là</legend>
+            <div class="choices two">
+              <label class="opt"><input type="radio" name="role" value="chu_so_huu"><span>Chủ sở hữu</span></label>
+              <label class="opt"><input type="radio" name="role" value="nguoi_thue"><span>Người thuê</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Lựa chọn của bạn</legend>
+            <div class="choices">
+              <label class="opt"><input type="radio" name="choice" value="ung_ho"><span>Tôi đồng ý ủng hộ</span></label>
+              <label class="opt"><input type="radio" name="choice" value="can_tim_hieu"><span>Tôi cần tìm hiểu thêm, mong Ban Liên Lạc liên hệ giải đáp</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="note">Ghi chú (không bắt buộc)</label>
+            <textarea id="note" name="note" maxlength="300" placeholder="Ví dụ: thời gian tiện gặp trong tuần"></textarea>
+          </div>
+
+          <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+          <label class="consent"><input type="checkbox" id="consent"><span>Tôi đồng ý cho Ban Liên Lạc dùng thông tin trên để liên hệ về việc ký tên đề nghị bãi nhiệm Ban quản trị.</span></label>
+
+          <p class="disclaimer"><strong>Lưu ý:</strong> đăng ký này chỉ để Ban Liên Lạc liên hệ, chưa phải chữ ký hay phiếu biểu quyết. Chủ sở hữu vẫn ký phiếu giấy do Ban Liên Lạc thu trực tiếp.</p>
+
+          <div>
+            <button type="submit" class="btn btn-primary" id="submit">Gửi đăng ký</button>
+          </div>
+          <p class="msg" id="msg" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="thanks" id="thanks" hidden>
+          <h3>Cảm ơn bạn đã đăng ký</h3>
+          <p class="lead">Ban Liên Lạc đã nhận thông tin và sẽ liên hệ với bạn sớm. Chủ sở hữu vui lòng chuẩn bị ký phiếu giấy khi gặp nhóm vận động.</p>
+        </div>
+
+        <div class="sub-contacts">
+          <h3>Cần hỗ trợ? Gọi trực tiếp cho đại diện Ban Liên Lạc</h3>
+          <div class="contacts">
+            <div class="contact">
+              <span class="who">Trần Thomas</span>
+              <span class="role">Đại diện 1, Ban Liên Lạc vận động</span>
+              <a href="tel:0961177760">0961 177 760</a>
+            </div>
+            <div class="contact">
+              <span class="who">Nguyễn Thị Minh Hương</span>
+              <span class="role">Đại diện 2, Ban Liên Lạc vận động</span>
+              <a href="tel:0934503616">0934 503 616</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="thu-ngo" style="padding-top:0">
+    <div class="wrap letter-wrap">
+      <details>
+        <summary>Đọc toàn văn thư ngỏ</summary>
+        <article class="letter">
+          <img class="letter-logo" src="/logo.jpg" alt="Logo Ban Liên Lạc cư dân New City Thủ Thiêm" width="96" height="96">
+          <h3>THƯ NGỎ</h3>
+          <p class="re">V/v vận động bãi nhiệm BQT hiện tại và bầu BQT mới tại Chung cư NEW CITY THỦ THIÊM</p>
+          <p><strong>Kính gửi: Toàn thể Quý Chủ sở hữu căn hộ tại Chung cư New City Thủ Thiêm</strong></p>
+          <p>Chung cư New City Thủ Thiêm là nơi sinh sống và là tài sản có giá trị của đông đảo các gia đình. Vì vậy, việc xây dựng một Ban quản trị (BQT) thực sự đại diện cho ý chí, nguyện vọng và quyền lợi chính đáng của cư dân; hoạt động minh bạch, có trách nhiệm và hiệu quả là điều hết sức cần thiết.</p>
+          <p>Tuy nhiên, thực tế hoạt động của BQT hiện nay đang bộc lộ nhiều hạn chế, khiến cư dân quan ngại:</p>
+          <ul>
+            <li>Chưa thể hiện đúng vai trò đại diện cho ý chí và quyền lợi chung của tập thể cư dân;</li>
+            <li>Thiếu công khai, minh bạch trong báo cáo tài chính; thiếu đối thoại và chưa giải quyết thỏa đáng các phản ánh, kiến nghị của cư dân;</li>
+            <li>Chưa thực hiện tốt trách nhiệm giám sát quản lý, vận hành và bảo đảm an toàn chung cư. Đặc biệt, có phản ánh về thang máy và thiết bị PCCC đã quá thời hạn kiểm định nhưng vẫn tiếp tục sử dụng, tiềm ẩn nguy cơ mất an toàn cho cư dân.</li>
+          </ul>
+          <p>Những vấn đề trên cho thấy sự cần thiết phải xem xét lại trách nhiệm và vai trò của BQT hiện tại, nhằm bảo vệ quyền lợi và sự an toàn của cộng đồng chủ sở hữu.</p>
+          <p class="ask-line">Vì vậy, chúng tôi kêu gọi Quý chủ sở hữu đồng thuận, tự nguyện ký tên đề nghị BÃI NHIỆM TOÀN BỘ BAN QUẢN TRỊ HIỆN TẠI; đồng thời đề nghị UBND phường An Khánh tổ chức HỘI NGHỊ NHÀ CHUNG CƯ BẤT THƯỜNG để biểu quyết bãi nhiệm BQT hiện tại và BẦU BAN QUẢN TRỊ MỚI theo đúng quy định của pháp luật.</p>
+          <p>Cư dân New City mong muốn xây dựng một BQT mới có năng lực, uy tín, hoạt động công khai, minh bạch và thực sự đại diện cho cộng đồng chủ sở hữu.</p>
+          <p>Đây không phải là sự đối đầu hay chia rẽ, mà là sự đồng lòng vì quyền lợi chung và một môi trường sống an toàn, tốt đẹp hơn tại New City Thủ Thiêm.</p>
+          <p>Rất mong nhận được sự đồng thuận và ủng hộ của Quý Chủ sở hữu.</p>
+          <p><strong>Trân trọng cảm ơn!</strong></p>
+          <div class="sign">
+            <span>TP. Hồ Chí Minh, ngày 05 tháng 11 năm 2026</span>
+            <strong>ĐẠI DIỆN BAN LIÊN LẠC VẬN ĐỘNG</strong>
+            <div class="reps">
+              <div><strong>Trần Thomas</strong><br>ĐT: 0961177760</div>
+              <div><strong>Nguyễn Thị Minh Hương</strong><br>ĐT: 0934503616</div>
+            </div>
+          </div>
+        </article>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Ban Liên Lạc cư dân New City Thủ Thiêm</strong>
+    <span>Đoàn kết, đồng hành, vì cộng đồng.</span>
+  </div>
+</footer>
+
+<script>
+  // Lịch gặp Ban Liên Lạc: điền vào đây khi đã có giờ và địa điểm; để trống thì mục này ẩn.
+  // Ví dụ: { when: "Thứ Bảy, 8:00 – 11:00", where: "Sảnh tháp Babylon" }
+  var SCHEDULE = [];
+
+  (function () {
+    if (SCHEDULE.length) {
+      var list = document.getElementById("schedule-list");
+      SCHEDULE.forEach(function (s) {
+        var li = document.createElement("li");
+        var w = document.createElement("span"); w.className = "when"; w.textContent = s.when;
+        var p = document.createElement("span"); p.className = "where"; p.textContent = s.where;
+        li.appendChild(w); li.appendChild(p); list.appendChild(li);
+      });
+      document.getElementById("lich").hidden = false;
+    }
+
+    var form = document.getElementById("reg");
+    var msg = document.getElementById("msg");
+    var btn = document.getElementById("submit");
+
+    function val(n) { var e = form.elements[n]; return e ? e.value.trim() : ""; }
+    function radio(n) { var c = form.querySelector('input[name="' + n + '"]:checked'); return c ? c.value : ""; }
+    function fail(text, focusId) {
+      msg.className = "msg err"; msg.textContent = text;
+      if (focusId) { var f = document.getElementById(focusId); if (f) f.focus(); }
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      msg.className = "msg"; msg.textContent = "";
+      var phone = val("phone").replace(/[\s.\-()]/g, "");
+      if (val("full_name").length < 2) return fail("Vui lòng nhập họ và tên.", "full_name");
+      if (!/^(0|\+84|84)\d{9,10}$/.test(phone)) return fail("Số điện thoại chưa đúng, vui lòng kiểm tra lại.", "phone");
+      if (!val("tower")) return fail("Vui lòng chọn tháp.", "tower");
+      if (!/^\d{1,2}$/.test(val("floor")) || +val("floor") < 1) return fail("Vui lòng nhập tầng bằng số (ví dụ: 12).", "floor");
+      if (!val("unit")) return fail("Vui lòng nhập số căn hộ (ví dụ: 05).", "unit");
+      if (!radio("role")) return fail("Vui lòng chọn chủ sở hữu hoặc người thuê.");
+      if (!radio("choice")) return fail("Vui lòng chọn một lựa chọn.");
+      if (!document.getElementById("consent").checked) return fail("Vui lòng đồng ý cho Ban Liên Lạc dùng thông tin để liên hệ.", "consent");
+
+      btn.disabled = true; btn.textContent = "Đang gửi…";
+      fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          full_name: val("full_name"), phone: val("phone"), tower: val("tower"), floor: val("floor"), unit: val("unit"),
+          role: radio("role"), choice: radio("choice"), note: val("note"), website: val("website"), consent: true
+        })
+      }).then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+        .then(function (d) {
+          if (d.ok) {
+            form.hidden = true;
+            var t = document.getElementById("thanks"); t.hidden = false;
+            t.scrollIntoView({ block: "center" });
+          } else {
+            fail(d.error || "Chưa gửi được, vui lòng thử lại hoặc gọi cho Ban Liên Lạc.");
+          }
+        })
+        .catch(function () { fail("Chưa gửi được, vui lòng kiểm tra mạng và thử lại."); })
+        .then(function () { btn.disabled = false; btn.textContent = "Gửi đăng ký"; });
+    });
+  })();
+</script>
+</body>
+</html>
