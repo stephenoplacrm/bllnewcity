@@ -463,6 +463,11 @@ footer .wrap { display: grid; gap: .25rem; }
       if (focusId) { var f = document.getElementById(focusId); if (f) f.focus(); }
     }
 
+    // Xóa thông báo lỗi cũ ngay khi người dùng sửa thông tin hoặc tick lại, tránh hiểu nhầm là vẫn còn lỗi
+    function clearErr() { if (msg.className.indexOf("err") > -1) { msg.className = "msg"; msg.textContent = ""; } }
+    form.addEventListener("input", clearErr);
+    form.addEventListener("change", clearErr);
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       msg.className = "msg"; msg.textContent = "";

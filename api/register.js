@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
     const full_name = clean(d.full_name, 80);
     const phone = normPhone(d.phone);
     const tower = clean(d.tower, 20);
-    const floor = clean(d.floor, 3);
+    const floor = clean(d.floor, 6).replace(/\s/g, "").toUpperCase();
     const unit = clean(d.unit, 10).toUpperCase();
     const role = clean(d.role, 20);
     const choice = clean(d.choice, 20);
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     if (full_name.length < 2) return res.status(400).json({ ok: false, error: "Vui lòng nhập họ và tên." });
     if (!phone) return res.status(400).json({ ok: false, error: "Số điện thoại chưa đúng (10 số, bắt đầu bằng 0)." });
     if (!TOWERS.includes(tower)) return res.status(400).json({ ok: false, error: "Vui lòng chọn tháp." });
-    if (!/^\d{1,2}$/.test(floor) || Number(floor) < 1) return res.status(400).json({ ok: false, error: "Vui lòng nhập tầng bằng số (ví dụ: 12)." });
+    if (!/^[0-9A-Z]{1,4}$/.test(floor)) return res.status(400).json({ ok: false, error: "Vui lòng nhập tầng, gồm số hoặc chữ (ví dụ: 12 hoặc 3A)." });
     if (!unit) return res.status(400).json({ ok: false, error: "Vui lòng nhập số căn hộ (ví dụ: 05)." });
     if (!ROLES[role]) return res.status(400).json({ ok: false, error: "Vui lòng chọn chủ sở hữu hoặc người thuê." });
     if (!CHOICES[choice]) return res.status(400).json({ ok: false, error: "Vui lòng chọn một lựa chọn." });
@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
     const now = new Date().toISOString();
     const rec = {
       id: phone, created_at: prev ? prev.created_at : now, updated_at: now,
-      full_name, phone, tower, floor: String(Number(floor)), unit, role, choice, note, status: prev ? prev.status : "moi",
+      full_name, phone, tower, floor, unit, role, choice, note, status: prev ? prev.status : "moi",
     };
     await redis([["HSET", HASH, phone, JSON.stringify(rec)]]);
     return res.status(200).json({ ok: true });
